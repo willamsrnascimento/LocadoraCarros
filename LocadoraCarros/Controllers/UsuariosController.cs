@@ -1,6 +1,7 @@
 ﻿using LocadoraCarros.Data.Interfaces;
 using LocadoraCarros.Models;
 using LocadoraCarros.ViewModels;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -83,5 +84,58 @@ namespace LocadoraCarros.Controllers
             return View(registroViewModel);
         }
 
+        public async Task<IActionResult> Login()
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                await _usuarioRepositorio.EfetuarLogOut();
+            }
+
+            _logger.LogInformation("Entrando na página de login.");
+
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                _logger.LogInformation("Pegado usuário pelo email.");
+
+                var usuario = await _usuarioRepositorio.PegarUsuarioPeloEmail(loginViewModel.Email);
+
+                PasswordHasher<Usuario> passwordHasher = new PasswordHasher<Usuario>();
+
+                if(usuario != null)
+                {
+                    _logger.LogInformation("Verificando informações do usuário");
+
+                    if(passwordHasher.VerifyHashedPassword(usuario, usuario.PasswordHash, loginViewModel.Senha) != PasswordVerificationResult.Failed)
+                    {
+                        _logger.LogInformation("Informações corretas. Logando o usuário.");
+
+                        await _usuarioRepositorio.EfetuarLogin(usuario, false);
+
+                        return RedirectToAction("Index", "Home");
+                    }
+
+                    _logger.LogError("Informações inválidas.");
+                    ModelState.AddModelError("", "E-mail e/ou senha inválidos");
+                }
+
+                _logger.LogError("Informações inválidas.");
+                ModelState.AddModelError("", "E-mail e/ou senha inválidos");
+            }
+
+            return View(loginViewModel);
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await _usuarioRepositorio.EfetuarLogOut();
+
+            return RedirectToAction("Login", "Usuarios");   
+        }
     }
 }
