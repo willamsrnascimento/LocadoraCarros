@@ -34,7 +34,7 @@
                             <a class="nav-link navbar-text text-white" asp-action="Index" asp-controller="Carros"> Carros </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link navbar-text text-white" asp-action="Index" asp-controller="NiveisAcesso"> Níveis de Acesso </a>
+                            <a class="nav-link navbar-text text-white" asp-action="Index" asp-controller="NiveisAcessos"> Níveis de Acesso </a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link navbar-text text-white" asp-action="Index" asp-controller="Contas"> Saldo </a>
@@ -52,7 +52,9 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="conteudo-principal">
+                @RenderBody()
+            </div>
         </main>
     </div>
 

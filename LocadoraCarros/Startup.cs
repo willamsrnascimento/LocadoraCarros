@@ -1,3 +1,5 @@
+using LocadoraCarros.Data.Interfaces;
+using LocadoraCarros.Data.Repositories;
 using LocadoraCarros.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -54,6 +56,9 @@ namespace LocadoraCarros
             services.AddControllersWithViews();
 
             services.AddRazorPages();
+
+            services.AddScoped<INiveisAcessoRepositorio, NiveisAcessoRepositorio>();
+            services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
