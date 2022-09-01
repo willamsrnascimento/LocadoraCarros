@@ -5,10 +5,13 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li class="nav-item">
-            <text class="text-white">Olá, @UserManager.GetUserName(User) - </text>
-            <a class="btn btn-link navbar-btn navbar-link" asp-controller="Usuarios" asp-action="Logout">Logout</a>
-        </li>
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarColor01">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <text class="text-white">Olá, @UserManager.GetUserName(User) - </text>
+                <a class="btn btn-link navbar-btn navbar-link" asp-controller="Usuarios" asp-action="Logout">Logout</a>
+            </li>
+        </ul>
+    </div>
+
 }

@@ -19,6 +19,13 @@ namespace LocadoraCarros.Controllers
             _logger = logger;
         }
 
+        public async Task<IActionResult> Index()
+        {
+            _logger.LogInformation("Listando informações");
+
+            return View(await _usuarioRepositorio.PegarUsuarioLogado(User));
+        }
+
         public async Task<IActionResult> Registro()
         {
             if (User.Identity.IsAuthenticated)
@@ -66,7 +73,7 @@ namespace LocadoraCarros.Controllers
 
                     _logger.LogInformation("Usuário logado com sucesso.");
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "Usuarios");
                 }
                 else
                 {
@@ -117,7 +124,7 @@ namespace LocadoraCarros.Controllers
 
                         await _usuarioRepositorio.EfetuarLogin(usuario, false);
 
-                        return RedirectToAction("Index", "Home");
+                        return RedirectToAction("Index", "Usuarios");
                     }
 
                     _logger.LogError("Informações inválidas.");
