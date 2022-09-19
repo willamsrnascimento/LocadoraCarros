@@ -144,5 +144,53 @@ namespace LocadoraCarros.Controllers
 
             return RedirectToAction("Login", "Usuarios");   
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Atualizar(string Id)
+        {
+            _logger.LogInformation("Verificando se o usuário existe.");
+
+            var usuario = await _usuarioRepositorio.PegarPeloId(Id);
+
+            var atualizarViewModel = new AtualizarViewModel()
+            {
+                Id = usuario.Id,
+                Nome = usuario.Nome,
+                CPF = usuario.CPF,
+                Email = usuario.Email,
+                Telefone = usuario.Telefone,
+                NomeUsuario = usuario.UserName
+            };
+
+            return View(atualizarViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Atualizar(AtualizarViewModel atualizarViewModel)
+        {
+            _logger.LogInformation("Atualizar usuário.");
+
+            if (ModelState.IsValid)
+            {
+                var usuario = await _usuarioRepositorio.PegarPeloId(atualizarViewModel.Id);
+
+                usuario.Nome = atualizarViewModel.Nome;
+                usuario.CPF = atualizarViewModel.CPF;
+                usuario.UserName = atualizarViewModel.NomeUsuario;
+                usuario.Email = atualizarViewModel.Email;
+                usuario.Telefone = atualizarViewModel.Telefone;
+
+                await _usuarioRepositorio.Atualizar(usuario);
+
+                _logger.LogInformation("Usuário atualizado.");
+
+                return RedirectToAction("Index", "Usuarios");
+            }
+
+            _logger.LogError("Informações inválidas.");
+
+            return View(atualizarViewModel);
+        }
     }
 }

@@ -60,6 +60,7 @@ namespace LocadoraCarros
             services.AddScoped<INiveisAcessoRepositorio, NiveisAcessoRepositorio>();
             services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
             services.AddScoped<IEnderecoRepositorio, EnderecoRepositorio>();
+            services.AddScoped<IContaRepositorio, ContaRepositorio>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
