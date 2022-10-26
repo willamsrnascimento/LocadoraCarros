@@ -25,5 +25,10 @@ namespace LocadoraCarros.Data.Repositories
         {
             return await _applicationDbContext.Contas.Include(c => c.Usuario).ToListAsync();
         }
+
+        public async Task<Conta> PegarSaldoPeloUsuarioId(string id)
+        {
+            return await _applicationDbContext.Contas.FirstOrDefaultAsync(c => c.UsuarioId == id);
+        }
     }
 }

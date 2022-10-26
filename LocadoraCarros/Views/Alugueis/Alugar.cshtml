@@ -1,0 +1,128 @@
+﻿@model LocadoraCarros.ViewModels.AluguelViewModel
+
+@{
+    ViewData["Title"] = "Aluguel de Veículos";
+}
+
+@await Component.InvokeAsync("Aluguel", Model.CarroId)
+
+
+<div class="border border-light rounded shadow col-md-8">
+    <div class="container">
+        <h3 class="titulo"><i class="fa fa-car fa-lg"></i> @ViewData["Title"]</h3>
+        <hr />
+
+        @if (TempData["Aviso"] != null)
+        {
+            <p class="alert alert-warning">@TempData["Aviso"].ToString()</p>
+        }
+
+        <div class="row">
+            <div class="col-md-8">
+                <form asp-action="Alugar">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="CarroId" />
+
+                    <div class="campos">
+                        <div class="form-group">
+                            <label asp-for="DataInicio" class="control-label">Data de Inicio</label>
+                            <input asp-for="DataInicio" class="form-control form-control-lg datepicker" id="dataInicio" />
+                            <span asp-validation-for="DataInicio" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="campos">
+                        <div class="form-group">
+                            <label asp-for="DataFim" class="control-label">Data de Fim</label>
+                            <input asp-for="DataFim" class="form-control form-control-lg datepicker" id="dataFim" />
+                            <span asp-validation-for="DataFim" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="campos">
+                        <div class="form-group">
+                            <label asp-for="PrecoDiaria" class="control-label">Preço da Diária</label>
+                            <input asp-for="PrecoDiaria" class="form-control form-control-lg" id="precoDiaria" readonly />
+                            <span asp-validation-for="PrecoDiaria" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="campos">
+                        <div class="form-group">
+                            <label asp-for="PrecoTotal" class="control-label">Preço Total</label>
+                            <input asp-for="PrecoTotal" class="form-control form-control-lg" id="precoTotal" readonly />
+                            <span asp-validation-for="PrecoTotal" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group botoes">
+                        <input type="submit" value="Salvar" class="btn btn-outline-success btn-lg" /> &nbsp;
+                        <a asp-action="Index" class="btn btn-link btn-lg">Voltar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(".datepicker").datepicker({
+            autoclose: true,
+            calendarWeeks: true,
+            clearBtn: true,
+            todayBtn: true,
+            todayHighlight: true,
+            format: "dd/mm/yyyy",
+            language: "pt-BR"
+        })
+
+        $("#dataInicio").on('change', function() {
+
+            if (($("#dataInicio").val() != "" && $("#dataInicio").val() !== undefined) && ($("#dataFim").val() != "" && $("#dataFim").val() !== undefined)) {
+
+                var i = $("#dataInicio").val().split("/");
+                var inicio = new Date(i[2], i[1], i[0]);
+
+                var f = $("#dataFim").val().split("/");
+                var fim = new Date(f[2], f[1], f[0]);
+
+                var dias = ((fim - inicio) / 1000) / 86400;
+
+                var precoDiaria = parseInt($("#precoDiaria").val());
+
+                var precoTotal = precoDiaria * dias;
+
+                $("#precoTotal").val(precoTotal);
+            }
+
+        });
+
+        $("#dataFim").on('change', function() {
+            if (($("#dataInicio").val() != "" && $("#dataInicio").val() !== undefined) && ($("#dataFim").val() != "" && $("#dataFim").val() !== undefined)) {
+
+                var i = $("#dataInicio").val().split("/");
+                var inicio = new Date(i[2], i[1], i[0]);
+
+                var f = $("#dataFim").val().split("/");
+                var fim = new Date(f[2], f[1], f[0]);
+
+                var dias = ((fim - inicio) / 1000) / 86400;
+
+                var precoDiaria = parseInt($("#precoDiaria").val());
+
+                var precoTotal = precoDiaria * dias;
+
+                $("#precoTotal").val(precoTotal);
+            }
+
+        });
+    </script>
+
+}

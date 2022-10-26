@@ -1,6 +1,7 @@
 using LocadoraCarros.Data.Interfaces;
 using LocadoraCarros.Data.Repositories;
 using LocadoraCarros.Models;
+using LocadoraCarros.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -62,6 +63,11 @@ namespace LocadoraCarros
             services.AddScoped<IEnderecoRepositorio, EnderecoRepositorio>();
             services.AddScoped<IContaRepositorio, ContaRepositorio>();
             services.AddScoped<ICarroRepositorio, CarroRepositorio>();
+            services.AddScoped<IAluguelRepositorio, AluguelRepositorio>();
+            services.AddScoped<IEmail, Email>();
+
+            services.Configure<ConfiguracoesEmail>(Configuration.GetSection("EmailConfiguration"));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

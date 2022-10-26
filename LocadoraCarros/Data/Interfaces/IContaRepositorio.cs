@@ -8,5 +8,6 @@ namespace LocadoraCarros.Data.Interfaces
     {
         new Task<IEnumerable<Conta>> PegarTodos();
         int PegarSaldoPeloId(string id);
+        Task<Conta> PegarSaldoPeloUsuarioId(string id);
     }
 }
