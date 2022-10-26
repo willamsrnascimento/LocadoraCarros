@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LocadoraCarros.Controllers
 {
+    [Authorize]
     public class CarrosController : Controller
     {
         private readonly ICarroRepositorio _carroRepositorio;

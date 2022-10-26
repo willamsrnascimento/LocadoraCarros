@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using LocadoraCarros.Models;
 using LocadoraCarros.Data.Interfaces;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LocadoraCarros.Controllers
 {
+    [Authorize]
     public class EnderecosController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;

@@ -2,12 +2,14 @@
 using LocadoraCarros.Models;
 using LocadoraCarros.Services;
 using LocadoraCarros.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace LocadoraCarros.Controllers
 {
+    [Authorize]
     public class AlugueisController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;

@@ -79,6 +79,8 @@ namespace LocadoraCarros
                 app.UseDatabaseErrorPage();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Erros/{0}");
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -91,7 +93,7 @@ namespace LocadoraCarros
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Usuarios}/{action=Login}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

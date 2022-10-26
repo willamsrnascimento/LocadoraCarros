@@ -1,6 +1,7 @@
 ﻿using LocadoraCarros.Data.Interfaces;
 using LocadoraCarros.Models;
 using LocadoraCarros.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace LocadoraCarros.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private readonly IUsuarioRepositorio _usuarioRepositorio;
@@ -26,6 +28,7 @@ namespace LocadoraCarros.Controllers
             return View(await _usuarioRepositorio.PegarUsuarioLogado(User));
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Registro()
         {
             if (User.Identity.IsAuthenticated)
@@ -38,6 +41,7 @@ namespace LocadoraCarros.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Registro(RegistroViewModel registroViewModel)
@@ -91,6 +95,7 @@ namespace LocadoraCarros.Controllers
             return View(registroViewModel);
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> Login()
         {
             if (User.Identity.IsAuthenticated)
@@ -103,6 +108,7 @@ namespace LocadoraCarros.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel loginViewModel)
         {
