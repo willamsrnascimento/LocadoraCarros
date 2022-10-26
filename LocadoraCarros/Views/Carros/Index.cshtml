@@ -1,0 +1,69 @@
+﻿@model IEnumerable<LocadoraCarros.Models.Carro>
+
+@{
+    ViewData["Title"] = "Carros Cadastrados";
+    var controller = "Carros";
+}
+
+<h3 class="titulos">
+    <i class="fa fa-car fa-lg"></i> @ViewData["Title"]
+    <a asp-action="Create" class="btn btn-outline-secondary btn-lg" data-toggle="tooltip" data-placement="right" title="Novo Carro">
+    <i class="fa fa-plus-circle fa-lg"></i>
+    </a>
+</h3>
+
+<div class="row">
+
+    @foreach (var item in Model)
+    {
+        <div class="col-4">
+            <div class="cartoes">
+                <div class="card">
+                    <img src="@Url.Content(item.Foto)" class="card-img-top img-fluid" />
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Marca - @item.Nome</h5>
+                        <h5><span>R$ @item.PrecoDiaria,00</span></h5>
+                    </div>
+                    <div class="card-footer">
+                        <a asp-action="Edit" asp-controller="Carros" asp-route-id="@item.Id" class="btn btn-outline-info">Atualizar</a>
+                        <a onclick="ConfirmarExclusao(@item.Id, '@item.Nome', '@controller')" class="btn btn-outline-danger">Excluir</a>
+                        <a asp-action="Alugar" asp-controller="Alugueis" asp-route-CarroId="@item.Id" asp-route-PrecoDiaria="@item.PrecoDiaria" class="btn btn-outline-info btn-block">Alugar Veículo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<partial name="_ModalExclusao" />
+
+@section Scripts{
+    <script>
+        $(function() {
+            $('[data-toggle="tooltip"]').tooltip();
+        })
+
+        function ConfirmarExclusao(id, nome, controller) {
+            $(".Nome").html(nome);
+
+            $(".modal").modal("show");
+
+            $(".btnExcluir").on('click', function() {
+                var url = "/" + controller + "/Delete/";
+
+                $.ajax({
+                    method: "POST",
+                    url: url,
+                    data: { id: id },
+                    success: function() {
+                        alert("Registro Excluído!");
+                        location.reload();
+                    }
+                })
+
+            })
+        }
+    </script>
+
+}
